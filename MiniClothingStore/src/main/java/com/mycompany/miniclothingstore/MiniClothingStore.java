@@ -47,7 +47,7 @@ public class MiniClothingStore {
         int choice = 0;
         do
         {
-            System.out.println("*".repeat(8) + "KwaThandanani Clothing" + "*".repeat(8));
+            System.out.println("*".repeat(8) + "Dashin Clothing" + "*".repeat(8));
             
             System.out.println("1. View Stock");
             System.out.println("2. Add to cart");
@@ -119,13 +119,14 @@ public class MiniClothingStore {
         if(selectedProduct == null)
         {
             System.out.println("Product not found");
+            return;
         }
         
         System.out.println("Enter quantity: ");
         //int quantity = input.nextInt();
         int quantity = Integer.parseInt(input.nextLine());
         
-        if(quantity < 0)
+        if(quantity <= 0)
         {
             System.out.println("Enter a valid number");
             return;
@@ -147,34 +148,54 @@ public class MiniClothingStore {
          
     
     
-    private void viewCart()
+   private void viewCart()
+{
+    System.out.println("-".repeat(8) + "Shopping Cart " + "-".repeat(8));
+
+    if(shoppingCart.isEmpty())
     {
-        System.out.println("-".repeat(8) + "Shopping Cart " + "-".repeat(8));
-        
-        if(shoppingCart.isEmpty())
-        {
-            System.out.println("Shopping cart is empty. Add items to cart");
-            
-        }
-        
-        double cartTotal = 0.0;
-       
-        for(cartItem item: shoppingCart)
-        {
-            product cartProduct = item.getProduct();
-            System.out.println("ID: " + cartProduct.getId() + " Name: " + cartProduct.getName()
-            + " x " + item.getQuantity() + " Total: " + item.getTotalPrice());
-            cartTotal += item.getTotalPrice();
-            
-            
-        }
-        
-        System.out.println("Cart Total: " + cartTotal);
+        System.out.println("Shopping cart is empty. Add items to cart");
+        return;
     }
+
+    double cartTotal = 0.0;
+
+    for(cartItem item: shoppingCart)
+    {
+        product cartProduct = item.getProduct();
+
+        System.out.println("ID: " + cartProduct.getId()
+                + " Name: " + cartProduct.getName()
+                + " x " + item.getQuantity()
+                + " Total: R" + String.format("%.2f", item.getTotalPrice()));
+
+        cartTotal += item.getTotalPrice();
+    }
+
+    System.out.println("Cart Total: R" + String.format("%.2f", cartTotal));
+
+    if(cartTotal >= 2999.99)
+    {
+        double discount = cartTotal * 0.10;
+        double finalTotal = cartTotal - discount;
+
+        System.out.println("You got a 10% discount!");
+        System.out.println("Discount Amount: R" + String.format("%.2f", discount));
+        System.out.println("Final Cart Total: R" + String.format("%.2f", finalTotal));
+    }
+    else
+    {
+        double amountNeeded = 2999.99 - cartTotal;
+
+        System.out.println("You are missing out on a 10% discount!");
+        System.out.println("Add R" + String.format("%.2f", amountNeeded)
+                + " to qualify for the discount.");
+    }
+}
     
     private void checkout()
     {
-        System.out.println("=".repeat(8) + "KwaThandanani Clothing Receipt" + "=".repeat(8));
+        System.out.println("=".repeat(8) + "Dashin Clothing Receipt" + "=".repeat(8));
         
         if(shoppingCart.isEmpty())
         {
